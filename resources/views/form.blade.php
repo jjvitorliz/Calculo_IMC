@@ -32,6 +32,9 @@
                     <label for="peso">Massa:</label>
                     <input type="number" class="campoTexto" name="peso" step="0.01" placeholder="Peso/Massa (kg)..." required/>
                     <br><br>
+                    <label for="h_dormidas">Média de Horas Dormidas:</label>
+                    <input type="number" class="campoTexto" name="h_dormidas" step="0.01" placeholder="Horas..." required/>
+                    <br><br>
                     <button class="botao" type="submit">Calcular</button>
                 </form>
             </div>

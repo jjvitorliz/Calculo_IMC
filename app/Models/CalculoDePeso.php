@@ -14,6 +14,7 @@ class CalculoDePeso extends Model
 
     public function idade() {
         $data = $_GET['nascimento'];
+        $h_dormidas = $_GET['h_dormidas'];
 
         list($ano, $mes, $dia) = explode('-', $data);
 
@@ -23,7 +24,66 @@ class CalculoDePeso extends Model
         $nascimento = mktime( 0, 0, 0, $mes, $dia, $ano);
 
         $idade = floor((((($hoje - $nascimento) / 60) / 60) / 24) / 365.25);
-        return $idade;
+
+        if ($idade < 3) {
+            $categoria = "Primeira Infância";
+            if ($h_dormidas <= 11) {
+                $q_sono = "Má qualidade de sono";
+            } else {
+                $categoria = "Primeira Infância";
+                $q_sono = "Boa Qualidade de Sono";
+            }
+        } else if ($idade < 6) {
+            $categoria = "Idade Pré-Escolar";
+            if ($h_dormidas <= 10) {
+                $q_sono = "Má qualidade de sono";
+            } else {
+                $categoria = "Idade Pré-Escolar";
+                $q_sono = "Boa Qualidade de Sono";
+            }
+        } else if ($idade < 14) {
+            $categoria = "Idade Escolar";
+            if ($h_dormidas <= 9) {
+                $q_sono = "Má qualidade de sono";
+            } else {
+                $categoria = "Idade Escolar";
+                $q_sono = "Boa Qualidade de Sono";
+            }
+        } else if ($idade < 18) {
+            $categoria = "Adolescente";
+            if ($h_dormidas <= 8) {
+                $q_sono = "Má qualidade de sono";
+            } else {
+                $categoria = "Adolescente";
+                $q_sono = "Boa Qualidade de Sono";
+            }
+        } else if ($idade < 26) {
+            $categoria = "Jovem Adulto";
+            if ($h_dormidas <= 11) {
+                $q_sono = "Má qualidade de sono";
+            } else {
+                $categoria = "Jovem Adulto";
+                $q_sono = "Boa Qualidade de Sono";
+            }
+        } else if ($idade <= 64) {
+            $categoria = "Adulto";
+            if ($h_dormidas <= 11) {
+                $q_sono = "Má qualidade de sono";
+            } else {
+                $categoria = "Adulto";
+                $q_sono = "Boa Qualidade de Sono";
+            }
+        } else if ($idade >= 65) {
+            $categoria = "Idoso";
+            if ($h_dormidas <= 7) {
+                $q_sono = "Má qualidade de sono";
+            } else {
+                $categoria = "Idoso";
+                $q_sono = "Boa Qualidade de Sono";
+            }
+        } 
+
+        return ["idade"=>$idade, "categoria"=>$categoria, "qdade_sono"=>$q_sono, "h_dormidas"=>$h_dormidas];
     }
 
     public function altura() {
@@ -34,12 +94,12 @@ class CalculoDePeso extends Model
         return $_GET['peso'];
     }
 
-    public function calcular() {
+    function calcular() {
         $massa = $_GET['peso'];
         $altura = $_GET['altura'];
 
-        $CalculoIMC = round(($massa / ($altura * $altura )), 2);
-        $classificacao =" ";
+        $CalculoIMC = round(($massa / ($altura * $altura )), 1);
+        $classificacao = "";
         
 
         if($CalculoIMC < 18.5) {
